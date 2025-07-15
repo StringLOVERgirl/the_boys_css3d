@@ -7,7 +7,128 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+.App {
+perspective: 500px;
+}
+
+.mainCont{
+  transform: rotateY(var(--rotateX)) rotateX(var(--rotateY));
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.cont {
+  width: 30vw; 
+   height: 75svh;
+  /* border: solid green 1px; */
+  background-image: url(../src/vought_tower.webp);
+background-position: center;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* transform-style: preserve-3d; */
+  /* perspective: 300px; */
+  /* transform: rotateY(var(--rotateX)) rotateX(var(--rotateY)); */
+}
+
+.soldierBoyParent{
+  width: 30vw; 
+  height: 75svh;
+ /* border: solid green 1px; */
+ background-image: url(../src/Soldier-Boy-_-Guest-Appearance-on-Solid-Gold-1-33-screenshot-900x900.jpeg);
+background-position: center;
+ background-color: white;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ /* transform-style: preserve-3d; */
+ /* perspective: 300px; */
+ /* transform: rotateY(var(--rotateX)) rotateX(var(--rotateY)); */
+}
+
+.contBg {
+  width: 55%;
+  height: 80%;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-style: preserve-3d;
+  position: relative;
+    transform: translateZ(-20px);
+  overflow: hidden;
+}
+
+.contBg::before {
+  content: '';
+  background-image: url(../src/vought_tower.webp);
+  background-position: calc(50% + var(--canvasTranslateX)*1.2) calc(50% + var(--canvasTranslateY)*0.8) ;
+  filter: blur(2px);
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.canvas {
+background-position: 50% 10%;
+transform-style: preserve-3d;
+transform: translateX(calc(var(--canvasTranslateX)*1.1)) translateY(var(--canvasTranslateY)) translateZ(0px);
+filter: blur(0.6px);
+  transition: transform 0.1s ;
+}
+
+.App {
+  background: linear-gradient(to right, white,#411c1c);
+  height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.soldierBoyCont {
+  width: 55%;
+  height: 80%;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-style: preserve-3d;
+  position: relative;
+    transform: translateZ(-20px);
+  overflow: hidden;
+}
+
+.soldierBoyCont::before {
+  content: '';
+  background-image: url('../src/Soldier-Boy-_-Guest-Appearance-on-Solid-Gold-1-33-screenshot-900x900.jpeg');
+  background-position: calc(50% + var(--canvasTranslateX)*1.2) calc(50% + var(--canvasTranslateY)*0.8) ;
+  filter: blur(2px);
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
+}
+
+.soldierBoy {
+  background-image: url('../src/Soldier_boy_jensen_ackles_the_boys_s3_png_by_iwasboredsoididthis_del399r-fullview (1).png');
+  background-size: cover;
+  /* background-position: calc(50% + var(--canvasTranslateX)*1.2) calc(-400% + var(--canvasTranslateY)*0.8) ; */
+  background-position: center -60%;
+  transform: translateX(calc(var(--canvasTranslateX)*1.1)) translateY(var(--canvasTranslateY)) translateZ(0px);
+  width: 100%;
+  /* will-change: background-position; */
+  height: 110%;
+  background-repeat: no-repeat;
+  transition: transform 0.1s ;
+  /* transform-style: preserve-3d; */
+
 }
