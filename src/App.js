@@ -185,7 +185,7 @@ function App() {
   let canvasRef = useRef(null)
   let sizeSoldierBoyCanvasRef = useRef(null)
 
-
+// x
   useEffect(() => {
 
     window.addEventListener('mousemove', rotating)
