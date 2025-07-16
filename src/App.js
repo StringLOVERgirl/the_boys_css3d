@@ -12,10 +12,18 @@ function Canvas({containerref}) {
   // на вызов ниже в риквест фрейм что бы отключить при размонтировании
 const canvasHolstRef = useRef(null)
   const contextRef = useRef(null)
+  const canvasSizeRef = useRef({
+    width:null,
+  height:null,
+  bgPositionY:null
+})
+const imgSizeRe = useRef({})
+
+const
 
 let canvas,context, image
 let newWidth, newHeight, offsetX, offsetY, index
-let width, height, bgPositionY
+// let width, height, bgPositionY
 let parentel
 
 
