@@ -17,13 +17,13 @@ const canvasHolstRef = useRef(null)
   height:null,
   bgPositionY:null
 })
+
 const imgSizeRe = useRef({})
 
-const
 
 let canvas,context, image
 let newWidth, newHeight, offsetX, offsetY, index
-// let width, height, bgPositionY
+let width, height, bgPositionY
 let parentel
 
 
@@ -55,12 +55,25 @@ function setImageSize(){
 
 } 
 
+
 function drawImage(){
-  setImageSize()
   console.log('drawning')
   context.clearRect(0,0,width, height)
   context.drawImage(image, 0-offsetX, 0-offsetY+bgPositionY, newWidth, newHeight)
 }
+
+function setImage() {
+  setImageSize()
+  drawImage()
+}  
+
+// setImageSize()
+
+// function drawImage(){
+//   console.log('drawning')
+//   context.clearRect(0,0,width, height)
+//   context.drawImage(image, 0-offsetX, 0-offsetY+bgPositionY, newWidth, newHeight)
+// }
 
 
 
@@ -87,12 +100,12 @@ function drawImage(){
     console.log(image)
 
     image.onload =()=>{ 
-      drawImage()
-       animate()
+      setImage()
+             animate()
     }
 
     if(image.complete){
-      drawImage()
+      setImage()
       animate()
     }
 
@@ -104,7 +117,7 @@ function drawImage(){
     
     const resizeObserver = new ResizeObserver(() => {
       setCanvasSize();
-      drawImage()
+      setImage()
     });
 
     resizeObserver.observe(parentel);
@@ -219,12 +232,17 @@ function setImageSize(){
 
 } 
 
-function drawImage(){
-  setImageSize()
-  console.log('drawning')
-  context.clearRect(0,0,width, height)
-  context.drawImage(image, 0-offsetX, 0-offsetY+bgPositionY, newWidth, newHeight)
-}
+
+  function drawImage(){
+    console.log('drawning')
+    context.clearRect(0,0,width, height)
+    context.drawImage(image, 0-offsetX, 0-offsetY+bgPositionY, newWidth, newHeight)
+  }
+
+  function setImage() {
+    setImageSize()
+    drawImage()
+  }  
 
 console.log('working')
 
@@ -247,14 +265,14 @@ console.log('working')
 
       setCanvasSize()
 
-      image.onload = drawImage
+      image.onload = setImage
     
     
 
 
     const resizeObserver = new ResizeObserver(() => {
       setCanvasSize()
-      drawImage()
+      setImage()
     });
 
     resizeObserver.observe(parentel);
