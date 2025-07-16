@@ -1,12 +1,17 @@
 import { use, useEffect, useRef } from 'react';
 import './App.css';
 import img from './john.png';
+import song1 from './assets/Soldiersong.mp3';
+import soldierboy from './Soldier_boy_jensen_ackles_the_boys_s3_png_by_iwasboredsoididthis_del399r-fullview (1) (1).png'
+// import {drawImage} from './sizeHelper.js'
 
 function Canvas({containerref}) {
   
   const canvasRef = useRef(null)
   const animationRef = useRef(null) // единственнаяцель - сохранить ссылку
   // на вызов ниже в риквест фрейм что бы отключить при размонтировании
+const canvasHolstRef = useRef(null)
+  const contextRef = useRef(null)
 
 let canvas,context, image
 let newWidth, newHeight, offsetX, offsetY, index
@@ -65,7 +70,7 @@ function drawImage(){
     console.log(parentel)
 
 
-setCanvasSize()
+    setCanvasSize();
     
 
      image = new Image()
@@ -79,7 +84,7 @@ setCanvasSize()
     }
 
     if(image.complete){
-    drawImage()
+      drawImage()
       animate()
     }
 
@@ -91,7 +96,6 @@ setCanvasSize()
     
     const resizeObserver = new ResizeObserver(() => {
       setCanvasSize();
-      setImageSize()
       drawImage()
     });
 
@@ -168,25 +172,130 @@ const vawe = 5
 
 
 
-function CanvasSoldierBoy (){
+function CanvasSoldierBoy ({size2ref}){
 
-  let canvasRef = useRef(null)
+  let canvasRef2 = useRef(null)
 
+    let canvas,context, image
+let newWidth, newHeight, offsetX, offsetY, index
+let width, height, bgPositionY
+let parentel
+
+function setCanvasSize(){
+
+  let contBgStyles = getComputedStyle(parentel)
+  console.log(canvas)
+   width  = parseFloat(contBgStyles.width)*1.1 // отрезаем пикс
+   height = parseFloat(contBgStyles.height) *1.1
+  canvas.width = width
+  canvas.height = height
+
+  bgPositionY = height / 100 * 30
+  // эмуляция backgorund-postitionY в процентах от высоты канваса 
+  // умножение ключевое 
+  console.log(width,height)
+} 
+
+ 
+function setImageSize(){
+      
+  const indexX = width/image.width  // делим размер канваса 
+  // на размер картинки, значит для масштабирования
+  // картинки (части) нужно делить на индекс 
+  const indexY = height/image.height
+  index = Math.max(indexX,indexY)
+  newWidth = image.width*index*1.2
+  newHeight = image.height*index*1.2
+  offsetX = (newWidth - width)/2
+  offsetY = (newHeight - height)/2
+
+} 
+
+function drawImage(){
+  setImageSize()
+  console.log('drawning')
+  context.clearRect(0,0,width, height)
+  context.drawImage(image, 0-offsetX, 0-offsetY+bgPositionY, newWidth, newHeight)
+}
+
+console.log('working')
+
+  useEffect(()=>{
+
+         parentel = size2ref.current
+
+
+    canvas = canvasRef2.current
+    console.log(parentel, canvas, 'working')
+
+
+        // if (!canvas || !parentel || !context) return;
+
+     context = canvas.getContext('2d')
+
+      image = new Image()
+      image.src = soldierboy
+console.log('working')
+
+      setCanvasSize()
+
+      image.onload = drawImage
+    
+    
+
+
+    const resizeObserver = new ResizeObserver(() => {
+      setCanvasSize()
+      drawImage()
+    });
+
+    resizeObserver.observe(parentel);
+
+    return(()=>{
+       resizeObserver.disconnect()
+    image.onload = null // обнуляем обработчики и верхний
+    image.onerror = null
+    })
+
+},[size2ref])
 
   return (
-    <canvas ref={canvasRef} className='soldierBoy'></canvas>
+    <canvas ref={canvasRef2} className='soldierBoy'></canvas>
   )
-}
+  }
+
+
+
+
 
 function App() {
 
   let sizeRef = useRef(null)
   let contRef = useRef(null)
   let canvasRef = useRef(null)
-  let sizeSoldierBoyCanvasRef = useRef(null)
+  let soldierBoySizeRef = useRef(null)
+  let songRef = useRef(null)
+  let playStatusRef = useRef(false)
+
+  let song
+  let playStatus
+
+  function playSong(){
+    if(!playStatus){
+      song.play()
+      playStatus = !playStatus
+    } else {
+      song.pause()
+      playStatus = false
+    }
+  }
 
 // x
   useEffect(() => {
+    
+    playStatus= playStatusRef.current
+    song = songRef.current
+    console.log(song)
 
     window.addEventListener('mousemove', rotating)
     function rotating(e){
@@ -228,9 +337,14 @@ function App() {
       </div>
 
         <div className='soldierBoyParent'>
-          <div className='soldierBoyCont'>
-            <CanvasSoldierBoy contref={sizeSoldierBoyCanvasRef}>
+          <div className='soldierBoyCont'
+          ref={soldierBoySizeRef}
+          onClick={playSong}>
+            <CanvasSoldierBoy size2ref={soldierBoySizeRef}>
             </CanvasSoldierBoy>
+            <audio 
+            ref={songRef}
+             src={song1}></audio>
           </div>
         </div>
 

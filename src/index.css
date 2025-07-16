@@ -78,7 +78,7 @@ background-position: center;
 }
 
 .canvas {
-background-position: 50% 10%;
+/* background-position: 50% 10%; */
 transform-style: preserve-3d;
 transform: translateX(calc(var(--canvasTranslateX)*1.1)) translateY(var(--canvasTranslateY)) translateZ(0px);
 filter: blur(0.6px);
@@ -104,6 +104,7 @@ filter: blur(0.6px);
   position: relative;
     transform: translateZ(-20px);
   overflow: hidden;
+  cursor: pointer;
 }
 
 .soldierBoyCont::before {
@@ -113,22 +114,23 @@ filter: blur(0.6px);
   filter: blur(2px);
   background-size: cover;
   width: 100%;
-  height: 100%;
+  height: 110%;
   position: absolute;
   z-index: -1;
+  transform: translateZ(-100px);
 }
 
 .soldierBoy {
-  background-image: url('../src/Soldier_boy_jensen_ackles_the_boys_s3_png_by_iwasboredsoididthis_del399r-fullview (1).png');
-  background-size: cover;
+  /* background-image: url('../src/Soldier_boy_jensen_ackles_the_boys_s3_png_by_iwasboredsoididthis_del399r-fullview (1) (1).png');
+  background-size: cover; 
   /* background-position: calc(50% + var(--canvasTranslateX)*1.2) calc(-400% + var(--canvasTranslateY)*0.8) ; */
-  background-position: center -60%;
+  /* background-position: center -60%; */
   transform: translateX(calc(var(--canvasTranslateX)*1.1)) translateY(var(--canvasTranslateY)) translateZ(0px);
   width: 100%;
   /* will-change: background-position; */
   height: 110%;
-  background-repeat: no-repeat;
+  /* background-repeat: no-repeat; */
   transition: transform 0.1s ;
-  /* transform-style: preserve-3d; */
+  transform-style: preserve-3d;
 
 }
