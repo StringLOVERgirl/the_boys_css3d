@@ -303,10 +303,10 @@ function App() {
 
       <div className='mainCont'>
 
-      <div className='cont'
+      <div className='outside cont'
       ref={contRef}
       >
-        <div className='contBg' 
+        <div className='middleCont contBg' 
         ref={sizeRef}>
           {/* <div className='image'></div> */}
          <Canvas  containerref={sizeRef}
@@ -314,8 +314,8 @@ function App() {
         </div>
       </div>
 
-        <div className='soldierBoyParent'>
-          <div className='soldierBoyCont'
+        <div className='outside soldierBoyParent'>
+          <div className='middleCont soldierBoyCont'
           ref={soldierBoySizeRef}
           onClick={playSong}>
             <CanvasSoldierBoy size2ref={soldierBoySizeRef}>
