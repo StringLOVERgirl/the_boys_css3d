@@ -1,4 +1,4 @@
-import { use, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import './App.css';
 import img from './john.png';
 import song1 from './assets/Soldiersong.mp3';
@@ -10,19 +10,10 @@ function Canvas({containerref}) {
   const canvasRef = useRef(null)
   const animationRef = useRef(null) // единственнаяцель - сохранить ссылку
   // на вызов ниже в риквест фрейм что бы отключить при размонтировании
-const canvasHolstRef = useRef(null)
-  const contextRef = useRef(null)
-  const canvasSizeRef = useRef({
-    width:null,
-  height:null,
-  bgPositionY:null
-})
-
-const imgSizeRe = useRef({})
 
 
 let canvas,context, image
-// let newWidth, newHeight, offsetX, offsetY, index
+
 const imgStuff = {
   newWidth: null,
   newHeight: null,
@@ -30,7 +21,6 @@ const imgStuff = {
   offsetY: null,
   index: null
 }
-// let width, height, bgPositionY
 const canvasStuff = {
   width:null,
   height:null,
@@ -40,64 +30,10 @@ const canvasStuff = {
 let parentel
 
 
-// function setCanvasSize(parentel=parentel, canvas=canvas, canvasStuff=canvasStuff){
-
-//   let contBgStyles = getComputedStyle(parentel)
-//   canvasStuff.width  = parseFloat(contBgStyles.width)*1.1 // отрезаем пикс
-//   canvasStuff.height = parseFloat(contBgStyles.height)*1.1
-//   canvas.width = canvasStuff.width
-//   canvas.height = canvasStuff.height
-
-//   canvasStuff.bgPositionY = canvasStuff.height / 100 * 20
-//   // эмуляция backgorund-postitionY в процентах от высоты канваса 
-//   // умножение ключевое 
-//   console.log(canvasStuff.width,canvasStuff.height)
-// } 
-
-
-
-// function setImageSize(image=image, canvasStuff=canvasStuff, imgStuff=imgStuff){
-      
-//   const indexX = canvasStuff.width/image.width  // делим размер канваса 
-//   // на размер картинки, значит для масштабирования
-//   // картинки (части) нужно делить на индекс 
-//   const indexY = canvasStuff.height/image.height
-  
-//   imgStuff.index = Math.max(indexX,indexY)
-
-//   imgStuff.newWidth = image.width*imgStuff.index
-//   imgStuff.newHeight = image.height*imgStuff.index
-
-//   imgStuff.offsetX = (imgStuff.newWidth - canvasStuff.width)/2
-//   imgStuff.offsetY = (imgStuff.newHeight - canvasStuff.height)/2
-
-// } 
-
-
-
-// function drawImage(image=image,canvasStuff=canvasStuff, imgStuff=imgStuff){
-
-//   console.log('drawning')
-//   context.clearRect(0,0, canvasStuff.width, canvasStuff.height)
-//   context.drawImage( image, 
-//     0 - imgStuff.offsetX, 
-//     0 - imgStuff.offsetY + canvasStuff.bgPositionY, 
-//     imgStuff.newWidth, 
-//     imgStuff.newHeight)
-// }
-
 function setImage() {
   setImageSize(image, canvasStuff, imgStuff)
   drawImage(image,context,canvasStuff, imgStuff)
 }  
-
-// setImageSize()
-
-// function drawImage(){
-//   console.log('drawning')
-//   context.clearRect(0,0,width, height)
-//   context.drawImage(image, 0-offsetX, 0-offsetY+bgPositionY, newWidth, newHeight)
-// }
 
 
 
@@ -139,7 +75,7 @@ function setImage() {
 
     
     const resizeObserver = new ResizeObserver(() => {
-      setCanvasSize(parentel, canvas, canvasStuff)
+      setCanvasSize(parentel, canvas, canvasStuff,20)
             setImage()
     });
 
@@ -147,59 +83,65 @@ function setImage() {
 
     let time = 0
 
+// анимейт и обзервер между ренедрами не получат новые значения будут
+// работать с замкнутыми перменными
+// а переменные в случае рендера не обновятся потмоу что обновляются 
+// в эффект котоырй не запустится без изменения зависисотей 
 
-    function animate(){
+    function animate() { // вызывется с локальными переменными из этого
+      // блока поэтому аргументы не нужны 
 
-      let {width,height,bgPositionY} = canvasStuff
-      let {newWidth,newHeight,offsetX,offsetY,index} = imgStuff
+      let { width, height, bgPositionY } = canvasStuff
+      let { newWidth, newHeight, offsetX, offsetY, index } = imgStuff
 
-const vawe = 5
-      context.clearRect(0,0,width, height)
- context.drawImage(image, 0-offsetX, 0-offsetY+bgPositionY, newWidth, newHeight)
+      const vawe = 5
+      context.clearRect(0, 0, width, height)
+      context.drawImage(image, 0 - offsetX, 0 - offsetY + bgPositionY, newWidth, newHeight)
 
-      for(let y = newHeight/4; y <= newHeight; y+=vawe){
+      for (let y = newHeight / 4; y <= newHeight; y += vawe) {
 
-        let sin = Math.sin(3.14/(100/y) + time)
+        let sin = Math.sin(3.14 / (100 / y) + time)
+
         context.drawImage(image, // картинка
-        // масштабировать можно в любой паре координат
-        // в зависимости от цели   
-        0, // нольпотому вся каринка 
-        y/index, // увеливаем исходную область что бы шаг был такой чтобы 
-        // полностью пройти картинку по выосте оригинальной
-        image.width/2,
-        vawe/index, // тоже самое что и игрик только с размеров волны
-        // умножаем на индекс а ширины нет потому что они не масштабированы
-        // масштабируем на лету координаты и переводим высоту 
-        // волны в размерность картинки
+          // масштабировать можно в любой паре координат
+          // в зависимости от цели   
+          0, // нольпотому вся каринка 
+          y / index, // увеливаем исходную область что бы шаг был такой чтобы 
+          // полностью пройти картинку по выосте оригинальной
+          image.width / 2,
+          vawe / index, // тоже самое что и игрик только с размеров волны
+          // умножаем на индекс а ширины нет потому что они не масштабированы
+          // масштабируем на лету координаты и переводим высоту 
+          // волны в размерность картинки
 
-        0-offsetX+sin,y-offsetY+bgPositionY, newWidth/2, vawe 
-        //тут все просто ресайза и масштабирования нет
-       // просто куда и как вставть на канвас и в каком размере 
-       // картинку или ее часть 
-       )
+          0 - offsetX + sin, y - offsetY + bgPositionY, newWidth / 2, vawe
+          //тут все просто ресайза и масштабирования нет
+          // просто куда и как вставть на канвас и в каком размере 
+          // картинку или ее часть 
+        )
 
       }
 
-        context.drawImage(image,
+      context.drawImage(image,
 
-          0,
-          image.height*0.6,
-          image.width/2,
-          image.height*0.4,
+        0,
+        image.height * 0.6,
+        image.width / 2,
+        image.height * 0.4,
 
-        0-offsetX,
-        newHeight*0.6-offsetY+bgPositionY,
-        newWidth/2,
-        newHeight*0.4
-        )
+        0 - offsetX,
+        newHeight * 0.6 - offsetY + bgPositionY,
+        newWidth / 2,
+        newHeight * 0.4
+      )
 
-      time+=0.05
+      time += 0.05
 
       animationRef.current = requestAnimationFrame(animate) // получаем 
       // ссылку на анимацю чтобы в случае перезапуска компонента
       // оставноиться текущую анимацию и начать новую
       // дабы избежать наложения анимация   
-  } 
+    } 
 
   return(() => {
 
@@ -233,51 +175,28 @@ function CanvasSoldierBoy ({size2ref}){
   let canvasRef2 = useRef(null)
 
     let canvas,context, image
-let newWidth, newHeight, offsetX, offsetY, index
-let width, height, bgPositionY
+
+    const imgStuff = {
+      newWidth: null,
+      newHeight: null,
+      offsetX: null,
+      offsetY: null,
+      index: null
+    }
+    
+    const canvasStuff = {
+      width:null,
+      height:null,
+      bgPositionY:null
+      }
+
 let parentel
 
-function setCanvasSize(){
 
-  let contBgStyles = getComputedStyle(parentel)
-  console.log(canvas)
-   width  = parseFloat(contBgStyles.width)*1.1 // отрезаем пикс
-   height = parseFloat(contBgStyles.height) *1.1
-  canvas.width = width
-  canvas.height = height
-
-  bgPositionY = height / 100 * 30
-  // эмуляция backgorund-postitionY в процентах от высоты канваса 
-  // умножение ключевое 
-  console.log(width,height)
-} 
-
- 
-function setImageSize(){
-      
-  const indexX = width/image.width  // делим размер канваса 
-  // на размер картинки, значит для масштабирования
-  // картинки (части) нужно делить на индекс 
-  const indexY = height/image.height
-  index = Math.max(indexX,indexY)
-  newWidth = image.width*index*1.2
-  newHeight = image.height*index*1.2
-  offsetX = (newWidth - width)/2
-  offsetY = (newHeight - height)/2
-
-} 
-
-
-  function drawImage(){
-    console.log('drawning')
-    context.clearRect(0,0,width, height)
-    context.drawImage(image, 0-offsetX, 0-offsetY+bgPositionY, newWidth, newHeight)
-  }
-
-  function setImage() {
-    setImageSize()
-    drawImage()
-  }  
+  function setImage() { // вызывается с локальными переменными 
+    setImageSize(image, canvasStuff, imgStuff,1.2)
+    drawImage(image,context,canvasStuff, imgStuff)
+  }   
 
 console.log('working')
 
@@ -289,8 +208,7 @@ console.log('working')
     canvas = canvasRef2.current
     console.log(parentel, canvas, 'working')
 
-
-        // if (!canvas || !parentel || !context) return;
+        if (!canvas || !parentel) return;
 
      context = canvas.getContext('2d')
 
@@ -298,7 +216,7 @@ console.log('working')
       image.src = soldierboy
 console.log('working')
 
-      setCanvasSize()
+setCanvasSize(parentel, canvas, canvasStuff, 30)    
 
       image.onload = setImage
     
@@ -306,8 +224,8 @@ console.log('working')
 
 
     const resizeObserver = new ResizeObserver(() => {
-      setCanvasSize()
-      setImage()
+      setCanvasSize(parentel, canvas, canvasStuff, 30)    
+      setImageSize(image, canvasStuff, imgStuff,1.2)
     });
 
     resizeObserver.observe(parentel);
@@ -333,7 +251,6 @@ function App() {
 
   let sizeRef = useRef(null)
   let contRef = useRef(null)
-  let canvasRef = useRef(null)
   let soldierBoySizeRef = useRef(null)
   let songRef = useRef(null)
   let playStatusRef = useRef(false)
@@ -414,7 +331,6 @@ function App() {
   );
 }
 
-// стоит немного увеличить высоту канваса на случай выезда при анимации 3д
 
 export default App;
 
