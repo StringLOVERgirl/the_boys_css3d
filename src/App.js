@@ -225,7 +225,7 @@ setCanvasSize(parentel, canvas, canvasStuff, 30)
 
     const resizeObserver = new ResizeObserver(() => {
       setCanvasSize(parentel, canvas, canvasStuff, 30)    
-      setImageSize(image, canvasStuff, imgStuff,1.2)
+      setImage()
     });
 
     resizeObserver.observe(parentel);
