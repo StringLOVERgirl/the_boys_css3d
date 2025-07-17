@@ -4,7 +4,7 @@ import img from './john.png';
 import song1 from './assets/Soldiersong.mp3';
 import johnAudio from './assets/mirror (online-audio-converter.com).mp3'
 import soldierboy from './Soldier_boy_jensen_ackles_the_boys_s3_png_by_iwasboredsoididthis_del399r-fullview (1) (1).png'
-import {setCanvasSize, setImageSize, drawImage} from './sizeHelper.js'
+import {setCanvasSize, setImageSize, drawImage, playSong} from './sizeHelper.js'
 
 function Canvas({containerref}) {
   
@@ -33,16 +33,6 @@ let parentel
 let songRef = useRef(null)
 let playStatusRef = useRef(false)
 
-
-function johnMirror(){
-  if(!playStatusRef.current){
-    songRef.current.play()
-    playStatusRef.current = !playStatusRef.current
-  } else {
-    songRef.current.pause()
-    playStatusRef.current = false
-  }
-}
 
 // x
   
@@ -182,7 +172,7 @@ function setImage() {
 
   return (<>
     <canvas 
-    onClick={johnMirror}
+    onClick={()=>playSong(playStatusRef,songRef)}
     ref={canvasRef} className='canvas'></canvas>
     <audio ref={songRef}
     src={johnAudio}
@@ -278,28 +268,15 @@ function App() {
   let sizeRef = useRef(null)
   let contRef = useRef(null)
   let soldierBoySizeRef = useRef(null)
+
   let songRef = useRef(null)
   let playStatusRef = useRef(false)
-
-  let song
-  let playStatus
-
-  function playSong(){
-    if(!playStatus){
-      song.play()
-      playStatus = !playStatus
-    } else {
-      song.pause()
-      playStatus = false
-    }
-  }
+  
+  
 
 // x
   useEffect(() => {
     
-    playStatus= playStatusRef.current
-    song = songRef.current
-    console.log(song)
 
     window.addEventListener('mousemove', rotating)
     function rotating(e){
@@ -321,6 +298,9 @@ function App() {
     let vars = ['--rotateX','--rotateY','--canvasTranslateX','--canvasTranslateY']
     vars.forEach((e,i)=>{document.documentElement.style.setProperty(e, '0%')})
 
+    return(() => {
+      window.removeEventListener('mousemove',rotating)
+    })
   },[])
 
   return (
@@ -343,7 +323,7 @@ function App() {
         <div className='outside soldierBoyParent'>
           <div className='middleCont soldierBoyCont'
           ref={soldierBoySizeRef}
-          onClick={playSong}>
+          onClick={()=>playSong(playStatusRef,songRef)}>
             <CanvasSoldierBoy size2ref={soldierBoySizeRef}>
             </CanvasSoldierBoy>
             <audio 
