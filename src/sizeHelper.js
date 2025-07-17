@@ -14,7 +14,7 @@ export function setCanvasSize(parentel, canvas, canvasStuff, bfPosY){
   
   
   
- export function setImageSize(image, canvasStuff, imgStuff){
+ export function setImageSize(image, canvasStuff, imgStuff, scaleIndex=1){
         
     const indexX = canvasStuff.width/image.width  // делим размер канваса 
     // на размер картинки, значит для масштабирования
@@ -23,8 +23,8 @@ export function setCanvasSize(parentel, canvas, canvasStuff, bfPosY){
     
     imgStuff.index = Math.max(indexX,indexY)
   
-    imgStuff.newWidth = image.width*imgStuff.index
-    imgStuff.newHeight = image.height*imgStuff.index
+    imgStuff.newWidth = image.width*imgStuff.index*scaleIndex
+    imgStuff.newHeight = image.height*imgStuff.index*scaleIndex
   
     imgStuff.offsetX = (imgStuff.newWidth - canvasStuff.width)/2
     imgStuff.offsetY = (imgStuff.newHeight - canvasStuff.height)/2

@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import './App.css';
 import img from './john.png';
 import song1 from './assets/Soldiersong.mp3';
+import johnAudio from './assets/mirror (online-audio-converter.com).mp3'
 import soldierboy from './Soldier_boy_jensen_ackles_the_boys_s3_png_by_iwasboredsoididthis_del399r-fullview (1) (1).png'
 import {setCanvasSize, setImageSize, drawImage} from './sizeHelper.js'
 
@@ -29,6 +30,23 @@ const canvasStuff = {
   
 let parentel
 
+let songRef = useRef(null)
+let playStatusRef = useRef(false)
+
+
+function johnMirror(){
+  if(!playStatusRef.current){
+    songRef.current.play()
+    playStatusRef.current = !playStatusRef.current
+  } else {
+    songRef.current.pause()
+    playStatusRef.current = false
+  }
+}
+
+// x
+  
+ 
 
 function setImage() {
   setImageSize(image, canvasStuff, imgStuff)
@@ -38,7 +56,6 @@ function setImage() {
 
 
   useEffect(() => { // при новом рендере вызывается функция очистки
-
 
     canvas = canvasRef.current
     context = canvas.getContext('2d');
@@ -163,8 +180,15 @@ function setImage() {
 
 
 
-  return (
-    <canvas ref={canvasRef} className='canvas'></canvas>
+  return (<>
+    <canvas 
+    onClick={johnMirror}
+    ref={canvasRef} className='canvas'></canvas>
+    <audio ref={songRef}
+    src={johnAudio}
+    >
+  </audio>
+  </>
   )
 }
 
@@ -238,8 +262,10 @@ setCanvasSize(parentel, canvas, canvasStuff, 30)
 
 },[size2ref])
 
-  return (
+  return (<>
     <canvas ref={canvasRef2} className='soldierBoy'></canvas>
+
+</>
   )
   }
 
@@ -309,8 +335,8 @@ function App() {
         <div className='middleCont contBg' 
         ref={sizeRef}>
           {/* <div className='image'></div> */}
-         <Canvas  containerref={sizeRef}
->         </Canvas>
+         <Canvas  containerref={sizeRef}>
+                   </Canvas>
         </div>
       </div>
 
