@@ -90,31 +90,24 @@ filter: blur(0.6px);
   align-items: center;
 }
 
-@media (max-width:999.98px) {
+@media  (max-width:999.98px) {
   .mainCont {flex-direction: column;}
+}
+
+@media screen and (min-width:800px) and (max-width:999.98px) {
   .outside {
     height: 50svh;
   }
 }
 
-@media (max-width:800px) {
-  .mainCont {flex-direction: column;}
-  .outside {
-    height: 50svh;
-    width: 35vw;
-  }
-}
-
-@media (max-width:600px) {
-  .mainCont {flex-direction: column;}
+@media (min-width: 500px) and (max-width: 799.98px) {
   .outside {
     height: 50svh;
     width: 50vw;
   }
 }
 
-@media (max-width:500px) {
-  .mainCont {flex-direction: column;}
+@media (max-width:499.98px) {
   .outside {
     height: 50svh;
     width: 75vw;
@@ -123,7 +116,6 @@ filter: blur(0.6px);
 
 @media  screen and (min-width: 700px) and (max-width: 1000px) and (max-height: 1300px) {
   /* Для iPad (1, 2) в портретной ориентации */
-  .mainCont {flex-direction: column;}
   .outside {
     height: 50svh;
     width: 50vw;
