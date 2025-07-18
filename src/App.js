@@ -33,7 +33,7 @@ let parentel
 let songRef = useRef(null)
 let playStatusRef = useRef(false)
 
-
+let time
 // x
   
  
@@ -88,7 +88,7 @@ function setImage() {
 
     resizeObserver.observe(parentel);
 
-    let time = 0
+     time = 0
 
 // анимейт и обзервер между ренедрами не получат новые значения будут
 // работать с замкнутыми перменными
