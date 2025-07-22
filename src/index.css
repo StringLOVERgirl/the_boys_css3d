@@ -11,7 +11,6 @@ body {
 
 .App {
 perspective: 500px;
-height: 90vh;
 }
 
 .mainCont{
@@ -86,7 +85,7 @@ filter: blur(0.6px);
 
 .App {
   background: linear-gradient(to right, white,#411c1c);
-  height: 90svh;
+  height: 100svh;
   display: flex;
   justify-content: center;
   align-items: center;
