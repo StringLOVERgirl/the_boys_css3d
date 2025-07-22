@@ -1,20 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
-<script>
-    let obj = {one:1}
-   setTimeout(()=> obj.one = 2, 5000)
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+         .mini-game {
+            /* background-color: greenyellow; */
+         }
 
-function func(){
-console.log(obj.one)
+         video {
+            position: absolute;
+            height: 25vh;
+            aspect-ratio: 10/10;
+            top:var(--top);
+            /* right: 0;
+        bottom: 0; */
+            z-index: -1;
+            /* border: solid 1px red; */
+            pointer-events: none;
+         }
+         body { 
+            background-color: greenyellow;
+         }
+
+         .showOn {
+            animation: glitch 0.2s 3s ease-out forwards,    
+             dissapear 0.7s 3.2s ease-out forwards;
+ 
+            /* z-index: 1; */
+
+         }
+
+         @keyframes glitch {
+            from {}
+            50% {
+                filter: brightness(200%);
+            }
+            to {            z-index: 1;
 }
-setInterval(func, 1000)
+         }
+
+   
+         
+         @keyframes dissapear {
+            from {
+                transform: translateZ(0)
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            to {
+                transform: translateZ(0) translateY(-25%);
+                opacity: 0;
+                pointer-events: none;
+            }
+            
+         }
+
+         h1 {
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 4em;
+            position: absolute;
+            pointer-events: none;
+            text-shadow: 1em 1em 10px greenyellow;
+            z-index: 2;
+            overflow: visible;
+         }
+
+
+
+    </style>
+</head>
+
+<body>
+    <!-- <canvas></canvas> -->
+    <h1 class="task">find the lock</h1>
+    <canvas class="mini-game"></canvas>
+    <!-- <img src="../../pngtree-salon-logo-png-image_4004444.png" alt="" > -->
+    <video class="video" src="../../lock.webm" muted autoplay loop></video>
+</body>
+
+</html>
+<!-- <script>
+
+    let canvas = document.querySelector('canvas')
+    let context = canvas.getContext('2d')
+
+    function setCanvasSize() {
+
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+
+    } setCanvasSize()
+
+    window.addEventListener('resize', () => {
+        setCanvasSize()
+        setWave()
+    })
+
+    canvas.addEventListener('mousemove', drawCircle)
+
+    let mousex, mousey
+
+    function drawCircle(e) {
+
+        let rect = canvas.getBoundingClientRect()
+
+        mousex = e.clientX - rect.left
+        mousey = e.clientY - rect.top
+
+        console.log(mousex, mousey)
+    }
+
+
+
+
+    let start
+    let L = 200 / 3.14
+
+    function setWave() {
+
+        y = canvas.height / 2
+        start = canvas.width / 2
+
+    }
+
+    setWave()
+
+    let time = 0
+
+    console.log(start)
+
+     context.fillStyle = 'greenyellow'
+
+
+    function s() {
+// при ресайзе канвас автоматически очищает холст 
+// и те пиксели которые были становятя черные
+// поседняя операция фил заливает весь канвас 
+// и при ресайзе он очистится и весь фил 
+// т е его зона - станет черным (весь канвас в данном случае)
+// или просто меняется цвет заливки 
+        context.fillStyle = 'greenyellow'
+        context.globalCompositeOperation = "destination-over";
+console.log(context.fillStyle)
+
+
+        // context.restore() // Первый restore() извлечет единственное 
+        // сохраненное состояние из стека и применит его. Стек станет пустым.
+        // поэтрму в цикле не сработает
+        context.clearRect(0, 0, canvas.width, canvas.height)
+        context.beginPath();
+
+        //   context.moveTo(start, y) 
+        // переместили  в цикл при первой итерации потому что 
+        // 
+        console.log(y)
+
+        for (let x = start; x < canvas.width; x++) {
+
+            let sin = Math.sin(x / L + time) * 100
+            if (x == start) {
+                context.moveTo(start, y + sin)
+            }
+            context.lineTo(x, y + sin)
+        }
+
+        time += 0.04
+
+
+        context.strokeStyle = 'red'
+        context.stroke()
+        // context.closePath()
+        //  линия не замыкается (волна)
+
+        if (mousex && mousey) {
+
+            context.save()
+            console.log('circle')
+            context.beginPath() //Перед рисованием каждой отдельной фигуры,
+            // которая должна быть независимой от предыдущих.
+            context.globalCompositeOperation = "source-over";
+            // дефолт - накладываются порвех а не под 
+
+            context.strokeStyle = 'gray'
+            context.arc(mousex, mousey, 10, 0, 2 * Math.PI)
+            context.fill()
+            context.stroke()
+
+            //  context.closePath() //пытается завершить текущий путь, соединяя 
+            //текущую точку с начальной точкой этого пути прямой линией.
+            // не обяхателен для линий и кругов и там где есть context.fill
+            // тут не нужен
+            context.restore()
+        }
+        // context.fillRect(0, 0, canvas.width, canvas.height)
+
+
+        requestAnimationFrame(s)
+    }
+    s()
+
+</script> -->
+
+<script>
+    let img = document.querySelector('.video')
+    let game = document.querySelector('.mini-game')
+    let context = game.getContext('2d')
+    let trigger = false
+
+    let resizeFlag = false
+
+
+    let positiongenerator = () => {
+
+        let maxX = game.width - img.clientWidth
+        let maxY = game.height - img.clientHeight
+        let offsetX = Math.floor(Math.random() * (maxX - 0 + 1)) + 0;
+        let offsetY = Math.floor(Math.random() * (maxY - 0 + 1)) + 0;
+        img.style.left = offsetX + 'px'
+        document.documentElement.style.setProperty('--top',offsetY+'px')
+
+    }
+
+let imgTrigger = {
+    imgTriggerX:0,
+    imgTriggerY:0
+
+}
+//     let imgTriggerX
+// let imgTriggerY
+
+    function setTriggerDistance(){
+
+        let imgrect = img.getBoundingClientRect()
+        
+        imgTrigger.imgTriggerX = imgrect.left 
+        imgTrigger.imgTriggerY = imgrect.top 
+
+    }
+
+
+
+    function setCanvasSize() {
+
+
+
+game.width = window.innerWidth
+game.height = window.innerHeight
+
+} 
+setCanvasSize()
+
+positiongenerator()
+
+setTriggerDistance()
+
+
+
+window.addEventListener('resize', () => {
+    const oldWidth = game.width;
+    const oldHeight = game.height;
+
+    // // Сохраняем содержимое как изображение
+    const imageData = context.getImageData(0, 0, oldWidth, oldHeight);
+
+    const newWidth = window.innerWidth;
+    const newHeight = window.innerHeight;
+
+
+    const tempCanvas = document.createElement('canvas');
+    const tempCtx = tempCanvas.getContext('2d');
+    tempCanvas.width = oldWidth;
+    tempCanvas.height = oldHeight;
+    tempCtx.putImageData(imageData, 0, 0);
+
+
+
+    setCanvasSize()
+
+    positiongenerator()
+    
+
+    setTriggerDistance()
+
+    context.drawImage(tempCanvas, 0, 0, oldWidth, oldHeight,
+     0, 0, newWidth , newHeight)
+
+})
+
+
+let x, y
+let canvasx,canvasy
+let target = null
+
+
+game.addEventListener('mousemove', (e)=>{
+    let rect = game.getBoundingClientRect()
+     canvasx = e.clientX - rect.left
+     canvasy = e.clientY - rect.top
+
+     x = e.clientX
+     y = e.clientY
+})
+
+
+context.fillRect(0,0, game.width, game.height)
+context.fillStyle = 'rgba(0, 0, 0, 0)'
+
+
+
+function fillField() {
+
+    context.clearRect(canvasx-30,canvasy-30,60,60)
+
+    if (x > imgTrigger.imgTriggerX && 
+     y > imgTrigger.imgTriggerY &&
+     x < imgTrigger.imgTriggerX + img.clientWidth &&
+     y < imgTrigger.imgTriggerY + img.clientHeight&&
+      !trigger) {
+        trigger = !trigger
+        img.classList.add('showOn')
+    } 
+
+
+
+    requestAnimationFrame(fillField)
+} fillField()
+    
 </script>

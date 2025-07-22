@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef,useState } from 'react';
 import './App.css';
 import img from './john.png';
 import song1 from './assets/Soldiersong.mp3';
@@ -6,29 +6,30 @@ import johnAudio from './assets/mirror (online-audio-converter.com).mp3'
 import soldierboy from './Soldier_boy_jensen_ackles_the_boys_s3_png_by_iwasboredsoididthis_del399r-fullview (1) (1).png'
 import {setCanvasSize, setImageSize, drawImage, playSong} from './sizeHelper.js'
 
-function Canvas({containerref}) {
+function Canvas({sizeref}) {
   
   const canvasRef = useRef(null)
   const animationRef = useRef(null) // единственнаяцель - сохранить ссылку
   // на вызов ниже в риквест фрейм что бы отключить при размонтировании
 
+  let contextRef = useRef(null);
+  let imageRef = useRef(null);
 
-let canvas,context, image
+  const imgStuffRef = useRef({
+    newWidth: null,
+    newHeight: null,
+    offsetX: null,
+    offsetY: null,
+    index: null,
+  });
 
-const imgStuff = {
-  newWidth: null,
-  newHeight: null,
-  offsetX: null,
-  offsetY: null,
-  index: null
-}
-const canvasStuff = {
-  width:null,
-  height:null,
-  bgPositionY:null
-  }
+  const canvasStuffRef = useRef({
+    width: null,
+    height: null,
+    bgPositionY: null,
+  });
+
   
-let parentel
 
 let songRef = useRef(null)
 let playStatusRef = useRef(false)
@@ -39,54 +40,54 @@ let time
  
 
 function setImage() {
-  setImageSize(image, canvasStuff, imgStuff)
-  drawImage(image,context,canvasStuff, imgStuff)
-}  
+  // вызывается с локальными переменными
+  setImageSize(imageRef, canvasStuffRef, imgStuffRef);
+  drawImage(imageRef, contextRef, canvasStuffRef, imgStuffRef);
+} 
 
 
 
   useEffect(() => { // при новом рендере вызывается функция очистки
 
-    canvas = canvasRef.current
-    context = canvas.getContext('2d');
 
 
-     parentel = containerref.current
+    if (!canvasRef.current || !sizeref.current) return;
 
-    if (!canvas || !parentel || !context) return;
-
-    console.log(parentel)
+    contextRef.current = canvasRef.current.getContext("2d");
 
 
-    setCanvasSize(parentel, canvas, canvasStuff, 20)    
+    console.log(sizeref.current )
 
-     image = new Image()
+
+    setCanvasSize(sizeref.current , canvasRef.current, canvasStuffRef, 20)    
+
+    imageRef.current = new Image()
     
-    image.src = img
-    console.log(image)
+    imageRef.current.src = img
+    console.log(imageRef.current)
 
-    image.onload =()=>{ 
+    imageRef.current.onload =()=>{ 
       setImage()
              animate()
     }
 
-    if(image.complete){
+    if(imageRef.current.complete){
       setImage()
       animate()
     }
 
-    image.onerror = () => {
+    imageRef.current.onerror = () => {
       console.error('Ошибка загрузки изображения');
       // Можно отобразить fallback, показать сообщение или остановить анимацию
     }
 
     
     const resizeObserver = new ResizeObserver(() => {
-      setCanvasSize(parentel, canvas, canvasStuff,20)
+      setCanvasSize(sizeref.current , canvasRef.current, canvasStuffRef,20)
             setImage()
     });
 
-    resizeObserver.observe(parentel);
+    resizeObserver.observe(sizeref.current );
 
      time = 0
 
@@ -98,10 +99,13 @@ function setImage() {
     function animate() { // вызывется с локальными переменными из этого
       // блока поэтому аргументы не нужны 
 
-      let { width, height, bgPositionY } = canvasStuff
-      let { newWidth, newHeight, offsetX, offsetY, index } = imgStuff
+      let { width, height, bgPositionY } = canvasStuffRef.current
+      let { newWidth, newHeight, offsetX, offsetY, index } = imgStuffRef.current
+      let context = contextRef.current
+      let image = imageRef.current
 
       const vawe = 5
+
       context.clearRect(0, 0, width, height)
       context.drawImage(image, 0 - offsetX, 0 - offsetY + bgPositionY, newWidth, newHeight)
 
@@ -129,18 +133,18 @@ function setImage() {
 
       }
 
-      context.drawImage(image,
+      // context.drawImage(image,
 
-        0,
-        image.height * 0.6,
-        image.width / 2,
-        image.height * 0.4,
+      //   0,
+      //   image.height * 0.6, 
+      //   image.width / 2,
+      //   image.height * 0.4,
 
-        0 - offsetX,
-        newHeight * 0.6 - offsetY + bgPositionY,
-        newWidth / 2,
-        newHeight * 0.4
-      )
+      //   0 - offsetX,
+      //   newHeight * 0.6 - offsetY + bgPositionY,
+      //   newWidth / 2,
+      //   newHeight * 0.4
+      // )
 
       time += 0.05
 
@@ -153,8 +157,8 @@ function setImage() {
   return(() => {
 
     resizeObserver.disconnect()
-    image.onload = null // обнуляем обработчики и верхний
-    image.onerror = null
+    imageRef.current.onload = null // обнуляем обработчики и верхний
+    imageRef.current.onerror = null
 
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current)
@@ -164,7 +168,7 @@ function setImage() {
   })
 
   // end of useEffect
-},[containerref])
+},[])
 
 
 
@@ -184,80 +188,82 @@ function setImage() {
 
 
 
-function CanvasSoldierBoy ({size2ref}){
-
-  let canvasRef2 = useRef(null)
-
-    let canvas,context, image
-
-    const imgStuff = {
-      newWidth: null,
-      newHeight: null,
-      offsetX: null,
-      offsetY: null,
-      index: null
-    }
-    
-    const canvasStuff = {
-      width:null,
-      height:null,
-      bgPositionY:null
-      }
-
-let parentel
 
 
-  function setImage() { // вызывается с локальными переменными 
-    setImageSize(image, canvasStuff, imgStuff,1.2)
-    drawImage(image,context,canvasStuff, imgStuff)
-  }   
 
-console.log('working')
+function CanvasSoldierBoy({ size2ref }) {
+  let canvasRef2 = useRef(null);
+  let [resizeTrigger, sets] = useState(0);
 
-  useEffect(()=>{
+  console.log(size2ref);
 
-         parentel = size2ref.current
+  let contextRef = useRef(null);
+  let imageRef = useRef(null);
 
+  const imgStuffRef = useRef({
+    newWidth: null,
+    newHeight: null,
+    offsetX: null,
+    offsetY: null,
+    index: null,
+  });
 
-    canvas = canvasRef2.current
-    console.log(parentel, canvas, 'working')
+  const canvasStuffRef = useRef({
+    width: null,
+    height: null,
+    bgPositionY: null,
+  });
 
-        if (!canvas || !parentel) return;
+  function setImage() {
+    // вызывается с локальными переменными
+    setImageSize(imageRef, canvasStuffRef, imgStuffRef, 1.2);
+    drawImage(imageRef, contextRef, canvasStuffRef, imgStuffRef);
+  }
 
-     context = canvas.getContext('2d')
+  useEffect(() => {
 
-      image = new Image()
-      image.src = soldierboy
-console.log('working')
+    console.log(size2ref.current, canvasRef2.current, "working");
 
-setCanvasSize(parentel, canvas, canvasStuff, 30)    
+    if (!canvasRef2.current || !size2ref.current) return;
 
-      image.onload = setImage
-    
-    
+    contextRef.current = canvasRef2.current.getContext("2d");
 
+    imageRef.current = new Image();
+    imageRef.current.src = soldierboy;
+    console.log("working");
 
+    setCanvasSize(size2ref.current, canvasRef2.current, canvasStuffRef, 30);
+
+    imageRef.current.onload = setImage;
+
+    return () => {
+      imageRef.current.onload = null; // обнуляем обработчики и верхний
+      imageRef.current.onerror = null;
+    };
+  }, [resizeTrigger]);
+
+  useEffect(() => { 
+    // можно не создавать юс стейт а просто вызывать сет имадж
+    // внутир обзервера
     const resizeObserver = new ResizeObserver(() => {
-      setCanvasSize(parentel, canvas, canvasStuff, 30)    
-      setImage()
+      // setCanvasSize(size2ref.current , canvas, canvasStuff, 30)
+      // setImage()
+      sets((prev) => prev + 1);
     });
 
-    resizeObserver.observe(parentel);
+    resizeObserver.observe(size2ref.current);
 
-    return(()=>{
-       resizeObserver.disconnect()
-    image.onload = null // обнуляем обработчики и верхний
-    image.onerror = null
-    })
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
 
-},[size2ref])
-
-  return (<>
-    <canvas ref={canvasRef2} className='soldierBoy'></canvas>
-
-</>
-  )
-  }
+  return (
+    <>
+      <canvas ref={canvasRef2} className="soldierBoy"></canvas>
+    </>
+  );
+}
 
 
 
@@ -315,7 +321,7 @@ function App() {
         <div className='middleCont contBg' 
         ref={sizeRef}>
           {/* <div className='image'></div> */}
-         <Canvas  containerref={sizeRef}>
+         <Canvas  sizeref={sizeRef}>
                    </Canvas>
         </div>
       </div>
