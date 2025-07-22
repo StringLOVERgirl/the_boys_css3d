@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/the_boys_css3d/static/css/main.37b3e670.css",
-    "main.js": "/the_boys_css3d/static/js/main.e4b94872.js",
+    "main.js": "/the_boys_css3d/static/js/main.4a922441.js",
     "static/js/453.5f7530c3.chunk.js": "/the_boys_css3d/static/js/453.5f7530c3.chunk.js",
     "static/media/Soldiersong.mp3": "/the_boys_css3d/static/media/Soldiersong.b8f61d2f03e36f4c22c9.mp3",
     "static/media/john.png": "/the_boys_css3d/static/media/john.83500190af125a5ad1a9.png",
@@ -11,11 +11,11 @@
     "static/media/Soldier-Boy-_-Guest-Appearance-on-Solid-Gold-1-33-screenshot-900x900.jpeg": "/the_boys_css3d/static/media/Soldier-Boy-_-Guest-Appearance-on-Solid-Gold-1-33-screenshot-900x900.c4a88894bbaca2d07d0e.jpeg",
     "index.html": "/the_boys_css3d/index.html",
     "main.37b3e670.css.map": "/the_boys_css3d/static/css/main.37b3e670.css.map",
-    "main.e4b94872.js.map": "/the_boys_css3d/static/js/main.e4b94872.js.map",
+    "main.4a922441.js.map": "/the_boys_css3d/static/js/main.4a922441.js.map",
     "453.5f7530c3.chunk.js.map": "/the_boys_css3d/static/js/453.5f7530c3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.37b3e670.css",
-    "static/js/main.e4b94872.js"
+    "static/js/main.4a922441.js"
   ]
 }
