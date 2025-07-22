@@ -86,7 +86,7 @@ filter: blur(0.6px);
 
 .App {
   background: linear-gradient(to right, white,#411c1c);
-  height: 100svh;
+  height: 90svh;
   display: flex;
   justify-content: center;
   align-items: center;
