@@ -341,8 +341,8 @@ function App() {
   let [width, setWidth] = useState(null)
 let [height, setHeight] = useState(null)
 window.addEventListener('resize',()=>{
-  setWidth(window.innerWidth)
-  setHeight(window.innerHeight)
+  setWidth(window.innerWidth+ ' width')
+  setHeight(window.innerHeight+' height')
 })
 
   return (
