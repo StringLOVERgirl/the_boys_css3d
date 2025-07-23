@@ -298,16 +298,16 @@ function App() {
       const touch = e.touches[0];
 
       let rotatexValue =(touch.clientX - window.innerWidth/2  )* 0.02+'deg'
-      // let rotateyValue =(touch.clientY - window.innerHeight/2  )* 0.02+'deg'
+      let rotateyValue =(touch.clientY - window.innerHeight/2  )* 0.02+'deg'
       let translateX = (touch.clientX - window.innerWidth/2)* -0.02+'px'
-      // let translateY = (touch.clientY - window.innerHeight/2)* -0.02+'px'
+      let translateY = (touch.clientY - window.innerHeight/2)* -0.02+'px'
 
       console.log()
 
       document.documentElement.style.setProperty('--rotateX', rotatexValue)
-      // document.documentElement.style.setProperty('--rotateY', rotateyValue)
+      document.documentElement.style.setProperty('--rotateY', rotateyValue)
       document.documentElement.style.setProperty('--canvasTranslateX', translateX)
-      // document.documentElement.style.setProperty('--canvasTranslateY', translateY)
+      document.documentElement.style.setProperty('--canvasTranslateY', translateY)
     }
 
 
