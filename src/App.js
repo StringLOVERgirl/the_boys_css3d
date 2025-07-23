@@ -86,10 +86,11 @@ function setImage() {
       // Можно отобразить fallback, показать сообщение или остановить анимацию
     }
 
-    
+  
     const resizeObserver = new ResizeObserver(() => {
+      requestAnimationFrame(()=>{
       setCanvasSize(sizeref.current , canvasRef.current, canvasStuffRef,20)
-            setImage()
+            setImage() })
     });
 
     resizeObserver.observe(sizeref.current );
@@ -248,6 +249,7 @@ function CanvasSoldierBoy({ size2ref }) {
   }, [resizeTrigger]);
 
   useEffect(() => { 
+    console.log('hjgukgkkhgk')
     // можно не создавать юс стейт а просто вызывать сет имадж
     // внутир обзервера
     const resizeObserver = new ResizeObserver(() => {
@@ -261,6 +263,7 @@ function CanvasSoldierBoy({ size2ref }) {
     return () => {
       resizeObserver.disconnect();
     };
+
   }, []);
 
   return (
@@ -277,7 +280,7 @@ function CanvasSoldierBoy({ size2ref }) {
 function App() {
 
   let sizeRef = useRef(null)
-  let contRef = useRef(null)
+  // let contRef = useRef(null)
   let soldierBoySizeRef = useRef(null)
 
   let songRef = useRef(null)
@@ -294,15 +297,15 @@ function App() {
 
       const touch = e.touches[0];
 
-      let rotatexValue =(touch.clientX - window.innerWidth/2  )* 0.01+'deg'
-      let rotateyValue =(touch.clientY - window.innerHeight/2  )* 0.01+'deg'
+      let rotatexValue =(touch.clientX - window.innerWidth/2  )* 0.02+'deg'
+      // let rotateyValue =(touch.clientY - window.innerHeight/2  )* 0.02+'deg'
       let translateX = (touch.clientX - window.innerWidth/2)* -0.02+'px'
       let translateY = (touch.clientY - window.innerHeight/2)* -0.02+'px'
 
       console.log()
 
       document.documentElement.style.setProperty('--rotateX', rotatexValue)
-      document.documentElement.style.setProperty('--rotateY', rotateyValue)
+      // document.documentElement.style.setProperty('--rotateY', rotateyValue)
       document.documentElement.style.setProperty('--canvasTranslateX', translateX)
       document.documentElement.style.setProperty('--canvasTranslateY', translateY)
     }
@@ -341,7 +344,7 @@ function App() {
       <div className='mainCont'>
 
       <div className='outside cont'
-      ref={contRef}
+      // ref={contRef}
       >
         <div className='middleCont contBg' 
         ref={sizeRef}>
