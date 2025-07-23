@@ -139,6 +139,11 @@ filter: blur(0.6px);
   }
 }
 
+.size {
+  font-size: 30px;
+  font-family: arial;
+}
+
 @media (min-width: 700px) and (min-height:1100px){
   .outside {
     height: 45vh;

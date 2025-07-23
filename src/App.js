@@ -1,8 +1,8 @@
 // рефакторинг
 // - вынести стили апп в один 
 // - создать фунцию для обновления пеерменных
-// адаптировать под мобильное горзиональное 
-// адаптировать размер чтобы не скроллился 
+// адаптировать под мобильное горзиональное - вроде есть
+// адаптировать размер чтобы не скроллился - вроде есть (уменьшили высоту до 90 вх)
 import { useEffect, useRef,useState } from 'react';
 import './App.css';
 import img from './john.png';
@@ -139,18 +139,19 @@ function setImage() {
 
       }
 
-      // context.drawImage(image,
+      // отрисовать ногу без этого - она тоже анимируется 
+      context.drawImage(image,
 
-      //   0,
-      //   image.height * 0.6, 
-      //   image.width / 2,
-      //   image.height * 0.4,
+        0,
+        image.height * 0.6, 
+        image.width / 2,
+        image.height * 0.4,
 
-      //   0 - offsetX,
-      //   newHeight * 0.6 - offsetY + bgPositionY,
-      //   newWidth / 2,
-      //   newHeight * 0.4
-      // )
+        0 - offsetX,
+        newHeight * 0.6 - offsetY + bgPositionY,
+        newWidth / 2,
+        newHeight * 0.4
+      )
 
       time += 0.05
 
@@ -332,6 +333,12 @@ function App() {
     let vars = ['--rotateX','--rotateY','--canvasTranslateX','--canvasTranslateY']
     vars.forEach((e,i)=>{document.documentElement.style.setProperty(e, '0%')})
 
+let [width, setWidth] = useState(null)
+let [height, setHeight] = useState(null)
+window.addEventListener('resize',()=>{
+  setWidth(window.innerWidth)
+  setHeight(window.innerHeight)
+})
     return(() => {
       window.removeEventListener('mousemove',rotating)
     })
@@ -342,6 +349,8 @@ function App() {
     <div className="App">
 
       <div className='mainCont'>
+        <p className='size'>{width}</p>
+        <p className='size'>{height}</p>
 
       <div className='outside cont'
       // ref={contRef}
