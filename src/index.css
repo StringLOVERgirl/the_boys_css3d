@@ -13,6 +13,7 @@ body {
 
 .App {
 perspective: 500px;
+
 }
 
 .mainCont{
@@ -24,6 +25,8 @@ perspective: 500px;
   /* display: flex; */
   align-items: center;
   justify-content: center;
+  position: fixed;
+
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
