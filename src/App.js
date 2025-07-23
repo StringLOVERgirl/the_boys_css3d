@@ -333,16 +333,17 @@ function App() {
     let vars = ['--rotateX','--rotateY','--canvasTranslateX','--canvasTranslateY']
     vars.forEach((e,i)=>{document.documentElement.style.setProperty(e, '0%')})
 
-let [width, setWidth] = useState(null)
+    return(() => {
+      window.removeEventListener('mousemove',rotating)
+    })
+  },[])
+
+  let [width, setWidth] = useState(null)
 let [height, setHeight] = useState(null)
 window.addEventListener('resize',()=>{
   setWidth(window.innerWidth)
   setHeight(window.innerHeight)
 })
-    return(() => {
-      window.removeEventListener('mousemove',rotating)
-    })
-  },[])
 
   return (
 
