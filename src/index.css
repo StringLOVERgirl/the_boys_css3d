@@ -39,6 +39,7 @@ background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: row;
 }
 
 .outside{
@@ -99,11 +100,11 @@ filter: blur(0.6px);
   align-items: center;
 }
 
-@media (max-width: 800px) and (max-height: 800px){
+/* @media (max-width: 800px) and (max-height: 800px){
   .outside {
     width: 45vw;
   }
-}
+} */
 
 @media  ( min-width:600px ) and (max-width:1000px) and (max-height: 500px) {
   .outside {
@@ -113,7 +114,7 @@ filter: blur(0.6px);
   }
 }
 
-@media  (max-width:999.98px) {
+@media  (max-width:999.98px) and (min-height: 500px) {
   .mainCont {flex-direction: column;}
 }
 
@@ -129,6 +130,11 @@ filter: blur(0.6px);
     height: 45svh;
     width: 75vw;
   }
+}
+
+@media (max-height:400px) and (min-width: 600px) {
+  .outside{flex-direction: row;}
+  
 }
 
 @media  screen and (min-width: 700px) and (max-width: 1000px) and (max-height: 1000px) {
