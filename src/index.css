@@ -132,7 +132,7 @@ filter: blur(0.6px);
 }
 
 @media (max-height:400px) and (min-width: 600px) {
-  .outside{flex-direction: row;}
+  .mainCont{flex-direction: row;}
   
 }
 
