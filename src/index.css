@@ -115,7 +115,7 @@ filter: blur(0.6px);
   }
 }
 
-@media  (max-width:999.98px) and (min-height: 500px) {
+@media  (max-width:999.98px) {
   .mainCont {flex-direction: column;}
 }
 
