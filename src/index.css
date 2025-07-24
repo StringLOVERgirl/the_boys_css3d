@@ -116,7 +116,7 @@ filter: blur(0.6px);
 }
 
 @media  (max-width:999.98px) {
-  .mainCont {flex-direction: column;}
+  /* .mainCont {flex-direction: column;} */
 }
 
  @media (min-width: 1000px) and (min-height: 799.98px) {
