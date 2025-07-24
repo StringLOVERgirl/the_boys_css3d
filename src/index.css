@@ -25,6 +25,8 @@ perspective: 500px;
   /* display: flex; */
   align-items: center;
   justify-content: center;
+  flex-direction: row;
+
 
 }
 code {
@@ -39,7 +41,6 @@ background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: row;
 }
 
 .outside{
